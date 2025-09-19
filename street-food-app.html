@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Street Food - Authentic Flavors</title>
+    <script src="/vue.global.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="/street-food-app.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Vue.js application root element - all Vue functionality bound here -->
+            <!-- Preloader -->
+         <div class="preloader" id="preloader">
+            <div class="logo-container">
+                <div class="logo-1"><img src="/img/preloader (1).png" alt="preloader image"></div>
+                <div class="loading-dots">
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                </div>
+            </div>
+         </div>
+ 
+        <!-- HEADER NAVIGATION SECTION -->
+        <header class="main-header" :class="{ 'scrolled': isScrolled }">
+            
+            <nav class="nav-container">
+                            
+                <a href="street-food-app.html" class="logo"><i class="fa-solid fa-utensils"></i>Street Food</a>
+                                
+                <ul class="nav-menu" :class="{ 'active': mobileMenuOpen }">
+                    <!-- Navigation menu list with conditional active class for mobile -->
+                    
+                    <li><a href="street-food-app.html" class="nav-link" @click="scrollTo('home')">Home</a></li>
+                    
+                    <li><a href="#menu" class="nav-link" @click="scrollTo('menu')">Menu</a></li>
+                   
+                    <li><a href="#about" class="nav-link" @click="scrollTo('about')">About Us</a></li>
+                    
+                    <li><a href="#contact"  id="us" @click="scrollTo('contact')">Contact Us</a></li>
+                    
+                </ul>
+                
+                <button class="mobile-menu-btn" @click="toggleMobileMenu">☰</button>
+                <!-- Hamburger menu button for mobile devices with Vue click handler -->
+            </nav>
+        </header>
+        <!-- HERO BANNER SECTION -->
+        <section id="home" class="hero">
+            
+            <div class="hero-content">
+                
+                <h1>Street Food Delights</h1>
+                
+                <p>Experience authentic street food flavors from around the world, made fresh daily with traditional recipes and local ingredients.</p>
+            
+                <a href="#menu" class="cta-btn" @click="scrollTo('menu')">Explore Our Menu</a>
+                <!-- Call-to-action button linking to menu section -->
+            </div>
+        </section>
+         <!-- MENU SHOWCASE SECTION -->
+        <section id="menu" class="menu-section">
+           
+            <div class="container">
+                
+                <h2 class="section-title">Our Menu</h2>
+                
+                <div class="menu-filter" style="text-align: center; margin-bottom: 2rem">
+                    <!-- Filter buttons container with inline styles -->
+                    
+                    <button 
+                        v-for="category in displayedCategories" 
+                        :key="category"
+                        @click="filterMenu(category)"
+                        :class="{ 'active': activeCategory === category }"
+                        style="margin: 0 0.5rem; padding: 0.5rem 1rem; border: 2px solid #fd7e14; background: transparent; color:#fd7e14; border-radius: 25px; cursor: pointer; transition: all 0.3s ease;" 
+                        :style="activeCategory === category ? 'background: #ff6b35; color: white;' : ''"
+                    >
+                        <!-- Vue loop creating filter buttons for each category -->
+                        <!-- Dynamic styling based on active state -->
+                        {{ category }}
+                        <!-- Display category name -->
+                    </button>
+                </div>
+                
+                <div class="menu-grid">
+                    <!-- CSS Grid container for menu items -->
+                    
+                    <div 
+                        v-for="item in filteredMenuItems" 
+                        :key="item.id"
+                        class="menu-item fade-in"
+                        @click="selectMenuItem(item)"
+                     >
+                        <!-- Vue loop creating menu item cards -->
+                        <!-- Click handler to open item details modal -->
+                        
+                        <div class="menu-item-image" :style="{ backgroundImage: `url(${item.image})` }">
+                            <!-- Real food image as background with emoji overlay -->
+                            <div class="image-overlay">{{ item.emoji }}</div>
+                            <!-- Emoji overlay positioned in top-right corner for category identification -->
+                        </div>
+                        
+                        <div class="menu-item-content">
+                            <!-- Content container for item details -->
+                            
+                            <h3>{{ item.name }}</h3>
+                            <!-- Item name heading -->
+                            
+                            <p>{{ item.description }}</p>
+                            <!-- Item description -->
+                            
+                            <div class="price">GHC {{ item.price }}</div>
+                            <!-- Item price with currency symbol -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+                <!-- ABOUT US SECTION -->
+        <section id="about" class="about-section">
+            <!-- About section with anchor ID -->
+            
+            <div class="container">
+                <!-- Content container -->
+                             
+                <div class="about-content">
+                    <div class="row-5">
+                        <div class="col-about">
+                            <div class="row-about">
+                                <div class="img">
+                                    <img src="/img/to-uyen-PwlU_MA5SFs-unsplash.jpg" alt="picture">
+                                </div>
+                                <div class="img">
+                                    <img src="/img/sittinat-thurdnampetch-5QrDbTtWd84-unsplash.jpg" alt="picture">
+                                </div>
+                                <div class="img">
+                                    <img src="/img/burger.png" alt="picture">
+                                </div>
+                                <div class="img">
+                                    <img src="/img/joseph-gonzalez-zcUgjyqEwe8-unsplash.jpg" alt="picture">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-about">
+                            <h5 class="about-text">About us</h5>
+                            <h1 class="welcome-1">Welcome to <i class="fa-solid fa-utensils"></i></i>Street food</h1>
+                            <p class="welcome">Since 2020, we’ve been serving authentic street flavors from around the world. From spicy Asian noodles to savory Latin American empanadas, every dish is crafted with fresh, locally 
+                                sourced ingredients and traditional cooking methods.
+                                    Join us for a taste of global culture served fresh every day.
+                                Your street food journey starts here.</p>
+                            
+                             <div class="stats-container">
+                                <div class="col-sm-6">
+                                    <div class="flex">
+                                        <h1 class="text-15"><span class="counter" data-target="15">0</span></h1>
+                                        <div class="text-content"> <span class="years">Years of</span><br><span>Experience</span></div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-sm-6">
+                                    <div class="flex">
+                                        <h1 class="text-15"><span class="counter" data-target="50">0</span></h1>
+                                        <div class="text-content"> <span class="years-1">Best</span> <br><span>Chefs</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                        </div>
+                                
+                    
+                    
+                </div>
+                 <div class="about-container">
+        <div class="about-content-1">
+            <div class="chefs-section">
+                <h3 class="chefs-heading">Meet Our Expert Chefs</h3>
+                <div class="chefs-grid">
+                    <div class="chef-card">
+                        <div class="chef-image" style="background-image: url('/img/5.jpg')"></div>
+                        <h4 class="chef-name">Chef Joseph Odoom</h4>
+                        <p class="chef-specialty">Mexican Street</p>
+                        <p class="chef-description">15 years of experience bringing authentic Mexican flavors to life with traditional techniques and modern innovation.</p>
+                    </div>
+
+                    <div class="chef-card">
+                        <div class="chef-image" style="background-image: url('/img/petr-sevcovic-e5Q5vWO55uU-unsplash.jpg')"></div>
+                        <h4 class="chef-name">Chef Wisdom Seidu Napaana</h4>
+                        <p class="chef-specialty">Asian Cuisine</p>
+                        <p class="chef-description">Master of traditional Asian cooking techniques and modern fusion, creating unforgettable culinary experiences.</p>
+                    </div>
+
+                    <div class="chef-card">
+                        <div class="chef-image" style="background-image: url('/img/redcharlie-t-7KEq9M0b0-unsplash.jpg')"></div>
+                        <h4 class="chef-name">Chef Elijah Amoo</h4>
+                        <p class="chef-specialty">American BBQ</p>
+                        <p class="chef-description">Award-winning pitmaster specializing in slow-cooked perfection and authentic Southern barbecue traditions.</p>
+                    </div>
+                </div>
+            </div>
+            </div>
+                       
+
+        </div>
+    </div>
+        </section>
+
+        <!-- CONTACT INFORMATION SECTION -->
+        
+                <section id="contact" class="contact-section">
+
+       <div class="container">
+           <h2 class="section-title-1">Get In Touch</h2>
+             <div class="contact-content">
+               <div class="contact-info">
+                   <h3>Visit Us</h3>
+
+                   <p>📍 123 Food Street, Kumasi, Ghana</p>
+
+                   <p>📞 +233 24 123 4567</p>
+
+                   <p>✉️ info@streetfood.com</p>
+
+                           <br>
+
+                   <h3>Opening Hours</h3>
+
+                   <p>Monday - Friday: 9:00 AM - 9:00 PM</p>
+
+                   <p>Saturday - Sunday: 10:00 AM - 10:00 PM</p>
+                   <div class="social">
+                    <h5 class="social-heading">Stay Updated – Follow Us</h5>
+                    <div class="d-flex-pt">
+                            <a class="btn-social" href=""><i class="fab fa-twitter"></i></a>
+                            <a class="btn-social" href=""><i class="fab fa-facebook-f"></i></a>
+                            <a class="btn-social" href=""><i class="fab fa-youtube"></i></a>
+                            <a class="btn-social" href=""><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                   </div>
+               </div>
+
+               <form class="contact-form" id="contactForm">
+
+                   <div class="form-group">
+
+                       <label for="name">Name</label>
+
+                       <input type="text" id="name" name="name" required>
+
+                   </div>
+
+                   <div class="form-group">
+
+                       <label for="email">Email</label>
+
+                       <input type="email" id="email" name="email" required>
+                   </div>
+                    <div class="form-group">
+                       <label for="message">Message</label>
+                       <textarea id="message" name="message" required placeholder="Tell us how we can help you..."></textarea>
+                   </div>
+
+                   <button type="submit" class="cta-btn-1" id="submitBtn">
+
+                       <span class="btn-text">Send Message</span>
+
+                   </button>
+                   <div id="responseMessage"></div>
+
+               </form>
+
+           </div>
+
+       </div>
+
+   </section>
+
+
+
+        <!-- FOOTER SECTION -->
+        <footer class="footer">
+            <!-- Page footer -->
+            
+            <div>
+                <button class="home-arrow" onclick="goToHome()" aria-label="Back to Home">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                     <path d="M12 4L4 12H8V20H16V12H20L12 4Z" fill="currentColor"/>
+                    </svg>
+                </button
+                
+                <p>&copy; 2025 Street Food Restaurant. All rights reserved. | Follow us on social media for daily specials!</p>
+                <!-- Copyright notice and social media call-to-action -->
+            </div>
+        </footer>
+         <!-- MODAL POPUP FOR MENU ITEMS -->
+       <div v-if="selectedItem" 
+     style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background: rgba(0,0,0,0.8); z-index: 2000; display: flex; 
+            align-items: center; justify-content: center; padding: 2rem;"
+     @click="selectedItem = null">
+
+    <!-- Modal -->
+    <div style="background: white; padding: 2rem; border-radius: 20px; 
+                max-width: 500px; width: 100%; text-align: center;" 
+         @click.stop>
+        
+        <!-- Image -->
+        <div class="modal-image" 
+             :style="{ backgroundImage: `url(${selectedItem.image})` }" 
+             style="height: 200px; background-size: cover; 
+                    background-repeat: no-repeat; background-position: center; 
+                    border-radius: 15px; margin-bottom: 1rem; position: relative;">
+            <div style="position: absolute; top: 10px; right: 10px; 
+                        background: rgba(255, 107, 53, 0.9); border-radius: 50%; 
+                        width: 40px; height: 40px; display: flex; align-items: center; 
+                        justify-content: center; font-size: 1.2rem; color: white;">
+                {{ selectedItem.emoji }}
+            </div>
+        </div>
+
+        <!-- Content -->
+        <h3 style="color: #ff6b35; margin-bottom: 1rem;">{{ selectedItem.name }}</h3>
+        <p style="margin-bottom: 1rem; color: #666;">{{ selectedItem.description }}</p>
+        <div style="font-size: 1.5rem; font-weight: bold; color: #ff6b35; margin-bottom: 1rem;">
+            GHC{{ selectedItem.price }}
+        </div>
+
+        <!-- Buttons -->
+        <div style="display: flex; gap: 1rem; justify-content: center;">
+            <button class="cta-btn" 
+                    style="background: #ff6b35; color: white; padding: 0.6rem 1.2rem; border: none; border-radius: 8px; cursor: pointer;"
+                    @click="buyItem(selectedItem)">
+                Buy Now
+            </button>
+            <button class="cta-btn" 
+                    style="background: #ff6b35; color: white; padding: 0.6rem 1.2rem; border: none; border-radius: 8px; cursor: pointer;"
+                    @click="selectedItem = null">
+                Close
+            </button>
+        </div>
+    </div>
+</div>
+
+</div>
+        </div>
+    </div>
+
+        
+    </div>
+
+   <script src="street.js"></script>
+
+</body>
+</html>
